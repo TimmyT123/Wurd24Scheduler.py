@@ -1,4 +1,4 @@
-
+import re
 
 
 
@@ -19,6 +19,26 @@ gameDupTempList2 = []
 game_week_list = []
 user_did_not_play = []
 user_bye = []
+
+
+def space_between_uu_and_uc_games(games_text):
+    first = False
+    games_lst = games_text.split('\n')
+    pattern = r'\w*\((\w)\) vs \w*\((\w)'
+    for i, game in enumerate(games_lst):
+        if 'week'.lower() in game.lower():
+            first = False
+        if len(game) < 10:
+            continue
+        m = re.match(pattern, game).groups()
+        if m[0] != m[1] and not first:
+            games_lst.insert(i, '\n')
+            first = True
+    games_lst = [game + '\n' for game in games_lst]
+    games_text = ''.join(games_lst)
+    print(games_text)
+    quit()
+    return games_text
 
 
 def comp_or_user(games):
@@ -75,6 +95,7 @@ for game in sched:
 
 check_if_user_not_in_current_week_games(gamesTemp)
 games_txt = comp_or_user(gameDupTempList)
+games_txt = space_between_uu_and_uc_games(games_txt)
 print(games_txt)
 # for userGame in gamesTemp:
 #     print(userGame, end='')
