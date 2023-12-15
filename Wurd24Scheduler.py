@@ -30,10 +30,15 @@ def space_between_uu_and_uc_games(games_text):
             first = False
         if len(game) < 10:
             continue
-        m = re.match(pattern, game).groups()
-        if m[0] != m[1] and not first:
-            games_lst.insert(i, '\n')
-            first = True
+
+        try:
+            m = re.match(pattern, game).groups()
+            if m[0] != m[1] and not first:
+                games_lst.insert(i, '\n')
+                first = True
+        except:
+            continue
+
     games_lst = [game + '\n' for game in games_lst]
     games_text = ''.join(games_lst)
     print(games_text)
