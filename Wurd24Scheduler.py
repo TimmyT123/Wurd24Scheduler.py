@@ -2,11 +2,14 @@
 
 
 
-pathSched = '.\wurd24sched.csv'
-pathUsers = '.\wurd24users.csv'
+pathSched = './wurd24sched.csv'
+pathUsers = './wurd24users.csv'
+pathNFL_Teams = './NFL_Teams.csv'
 
 sched = [line for line in open(pathSched)]
 users = [line for line in open(pathUsers)]
+NFL_Teams = [line for line in open(pathNFL_Teams)]
+
 gamesTemp = []
 usersTemp = []
 userCopy = []
@@ -19,8 +22,19 @@ user_bye = []
 
 
 def comp_or_user(games):
-    my_list = [elem + "(U)" for elem in games if user in games]
-    pass
+    team_txt = ''
+    for team in NFL_Teams:
+        if team in users:
+            team_txt = team_txt + str(team.strip('\n') + '(U)\n')
+        else:
+            team_txt = team_txt + str(team.strip('\n') + '(C)\n')
+        #games.replace(team.strip('\n'), team_txt)
+    #test_team = [team.replace(team.strip('\n'), team_txt + '\n') for team in games]
+    games_txt = ''.join(games)
+    team_lst = team_txt.split()
+    for team_r in team_lst:
+        games_txt = games_txt.replace(team_r[0:-3], team_r)
+    return games_txt
 
 def check_if_user_not_in_current_week_games(weekgames):
     if len(weekgames) < 2:
@@ -60,9 +74,8 @@ for game in sched:
             gamesTemp.append(game.replace(',', ' vs '))
 
 check_if_user_not_in_current_week_games(gamesTemp)
-comp_or_user(gameDupTempList)
-for magic in gameDupTempList:
-    print(magic, end='')
+games_txt = comp_or_user(gameDupTempList)
+print(games_txt)
 # for userGame in gamesTemp:
 #     print(userGame, end='')
     # if game[0] == ',':
