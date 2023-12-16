@@ -129,12 +129,15 @@ games_txt = comp_or_user(gameDupTempList)
 games_txt = space_between_uu_and_uc_games(games_txt)
 print(games_txt)
 
-weekDaysMapping = ("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday", "Monday", "Tuesday")
+weekDaysMapping = ("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")
 
 today = datetime.datetime.today().weekday()
+today += 2  # The advance will be in 2 days
+if today > 6:
+    today -= 7
 
 print(f"""
-Next Advance is {weekDaysMapping[today + 2]} @ 6PM (AZ time) or until games are completed.
+Next Advance is {weekDaysMapping[today]} @ 6PM (AZ time) or until games are completed.
 *User-CPU games get 1 day.  
 *User-User games get 2 days (if necessary).""")
 
