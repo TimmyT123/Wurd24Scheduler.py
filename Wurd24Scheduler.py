@@ -1,4 +1,5 @@
 import re
+import datetime
 
 
 pathSched = './wurd24sched.csv'
@@ -127,4 +128,13 @@ check_if_user_not_in_current_week_games(gamesTemp)
 games_txt = comp_or_user(gameDupTempList)
 games_txt = space_between_uu_and_uc_games(games_txt)
 print(games_txt)
+
+weekDaysMapping = ("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday", "Monday", "Tuesday")
+
+today = datetime.datetime.today().weekday()
+
+print(f"""
+Next Advance is {weekDaysMapping[today + 2]} @ 6PM (AZ time) or until games are completed.
+*User-CPU games get 1 day.  
+*User-User games get 2 days (if necessary).""")
 
